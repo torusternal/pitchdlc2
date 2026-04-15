@@ -1,135 +1,147 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Личный кабинет - Pitch</title>
+  <title>Profile - Zenith</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="profile-body">
   <!-- Header -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-          <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-          <polyline points="2 17 12 22 22 17"/>
-          <polyline points="2 12 12 17 22 12"/>
-        </svg>
+  <header class="new-profile-header">
+    <nav class="new-nav">
+      <a href="index.html" class="new-nav-link">Home</a>
+      <a href="products.html" class="new-nav-link">Products</a>
+      <a href="support.html" class="new-nav-link">Support</a>
+      <a href="#" class="new-nav-link">Privacy</a>
+    </nav>
+    <div class="new-header-right">
+      <div class="new-lang-selector">
+        <img src="https://flagcdn.com/w40/gb.png" alt="EN" class="new-flag">
       </div>
-      <nav class="nav-pages">
-        <a href="index.html" class="nav-link">Главная</a>
-        <a href="products.html" class="nav-link">Скачать</a>
-      </nav>
-      <div class="header-actions">
-        <div class="lang-dropdown">
-          <img src="https://flagcdn.com/w40/ru.png" alt="RU" class="flag-img">
-        </div>
-        <div class="header-buttons">
-          <a href="profile.html" class="btn btn-primary-sm">Профиль</a>
-        </div>
+      <div class="new-user-info">
+        <span class="new-username" id="headerUsername">torushaart</span>
+        <span class="new-status-dot"></span>
       </div>
-      <button class="burger" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <button class="new-logout-btn" onclick="logout()">Log Out</button>
     </div>
   </header>
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu">
-    <nav class="mobile-nav">
-      <a href="index.html">Главная</a>
-      <a href="products.html">Скачать</a>
-      <a href="profile.html" class="active">Профиль</a>
+  <!-- Main Content -->
+  <main class="new-profile-main">
+    <div class="new-profile-container">
+      <!-- Left Column -->
+      <div class="new-profile-left">
+        <!-- Profile Info -->
+        <div class="new-card new-profile-info">
+          <div class="new-avatar"></div>
+          <div class="new-profile-name" id="profileUsername">torushaart</div>
+          <div class="new-profile-status">No active license</div>
+        </div>
+
+        <!-- Key Activation -->
+        <div class="new-card new-key-activation">
+          <h3 class="new-card-title">Key Activation</h3>
+          <div class="new-input-group">
+            <label class="new-input-label">Key</label>
+            <div class="new-input-wrapper">
+              <input type="text" class="new-input" placeholder="Enter Key" id="keyInput">
+              <button class="new-clear-btn" onclick="clearKey()">×</button>
+            </div>
+          </div>
+          <button class="new-activate-btn">Activate Key</button>
+        </div>
+
+        <!-- Socials -->
+        <div class="new-card new-socials">
+          <h3 class="new-card-title">Socials</h3>
+          <div class="new-coming-soon">COMING SOON</div>
+        </div>
+
+        <!-- Friends -->
+        <div class="new-card new-friends">
+          <h3 class="new-card-title">Friends</h3>
+          <div class="new-coming-soon">COMING SOON</div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="new-profile-right">
+        <!-- User Details -->
+        <div class="new-card new-user-details">
+          <h3 class="new-card-title">User Details</h3>
+          <div class="new-detail-row">
+            <span class="new-detail-label">UID</span>
+            <span class="new-detail-value" id="userUid">12/49</span>
+          </div>
+          <div class="new-detail-row">
+            <span class="new-detail-label">Role</span>
+            <span class="new-detail-value">User</span>
+          </div>
+          <div class="new-detail-row">
+            <span class="new-detail-label">Email</span>
+            <span class="new-detail-value" id="userEmail">dragunovilia@Gmail.com</span>
+          </div>
+          <div class="new-detail-row">
+            <span class="new-detail-label">Registered</span>
+            <span class="new-detail-value" id="userRegDate">15.04.2026</span>
+          </div>
+          <div class="new-detail-row">
+            <span class="new-detail-label">HWID</span>
+            <span class="new-detail-value">🔑</span>
+          </div>
+        </div>
+
+        <!-- Launcher -->
+        <div class="new-card new-launcher">
+          <h3 class="new-card-title">Launcher</h3>
+          <div class="new-spec-row">
+            <span class="new-spec-label">System</span>
+            <span class="new-spec-value">Windows 10/11</span>
+          </div>
+          <div class="new-spec-row">
+            <span class="new-spec-label">CPU</span>
+            <span class="new-spec-value">Intel/AMD</span>
+          </div>
+          <div class="new-spec-row">
+            <span class="new-spec-label">RAM</span>
+            <span class="new-spec-value">4GB</span>
+          </div>
+          <div class="new-spec-row">
+            <span class="new-spec-label">Current Version</span>
+            <span class="new-spec-value">1.0</span>
+          </div>
+          <button class="new-download-btn">Download</button>
+        </div>
+
+        <!-- Security -->
+        <div class="new-card new-security">
+          <h3 class="new-card-title">Security</h3>
+          <div class="new-security-row">
+            <span class="new-security-label">Email</span>
+            <span class="new-security-value" id="securityEmail">dragunovilia48@Gmail.com</span>
+            <button class="new-edit-btn">✏️</button>
+          </div>
+          <div class="new-security-row">
+            <span class="new-security-label">Password</span>
+            <span class="new-security-value">********</span>
+            <button class="new-edit-btn">✏️</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="new-profile-footer">
+    <div class="new-footer-logo">Zenith</div>
+    <nav class="new-footer-nav">
+      <a href="index.html" class="new-footer-link">Home</a>
+      <a href="products.html" class="new-footer-link">Products</a>
+      <a href="support.html" class="new-footer-link">Support</a>
+      <a href="#" class="new-footer-link">Privacy</a>
     </nav>
-  </div>
-
-  <!-- Profile Section -->
-  <section class="profile-section">
-    <div class="auth-bg">
-      <svg id="auth-ribbons" viewBox="0 0 1440 885" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="authGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#ffffff08;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#ffffff02;stop-opacity:1" />
-          </linearGradient>
-        </defs>
-        <path fill="url(#authGrad1)" d="M0,300 C400,200 800,400 1200,300 C1400,250 1440,350 1440,350 L1440,885 L0,885 Z" opacity="0.5"/>
-      </svg>
-    </div>
-    <div class="profile-content">
-      <h1 class="profile-title">Аккаунт</h1>
-      
-      <!-- Subscription Card -->
-      <div class="glass-card profile-card">
-        <h2 class="card-title">Подписка</h2>
-        <div class="subscription-info">
-          <div class="sub-status">
-            <span class="sub-label">Статус:</span>
-            <span class="sub-value free">Бесплатная</span>
-          </div>
-          <div class="sub-expiry">
-            <span class="sub-label">Истекает:</span>
-            <span class="sub-value">Никогда</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Account Data Card -->
-      <div class="glass-card profile-card">
-        <h2 class="card-title">Данные аккаунта</h2>
-        <div class="account-data">
-          <div class="data-row">
-            <span class="data-label">UID:</span>
-            <span class="data-value" id="userUid">-</span>
-          </div>
-          <div class="data-row">
-            <span class="data-label">Роль:</span>
-            <span class="data-value" id="userRole">Пользователь</span>
-          </div>
-          <div class="data-row">
-            <span class="data-label">Логин:</span>
-            <span class="data-value" id="userLogin">-</span>
-          </div>
-          <div class="data-row">
-            <span class="data-label">Почта:</span>
-            <span class="data-value" id="userEmail">-</span>
-          </div>
-          <div class="data-row">
-            <span class="data-label">Дата регистрации:</span>
-            <span class="data-value" id="userRegDate">-</span>
-          </div>
-          <div class="data-row">
-            <span class="data-label">HWID:</span>
-            <span class="data-value" id="userHwid">Не привязан</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Actions Card -->
-      <div class="glass-card profile-card">
-        <h2 class="card-title">Действия</h2>
-        <div class="actions-grid">
-          <button class="action-btn primary">Скачать лоадер</button>
-          <button class="action-btn secondary">Активировать ключ</button>
-          <button class="action-btn secondary">Сменить пароль</button>
-          <button class="action-btn secondary">Сбросить HWID</button>
-          <button class="action-btn secondary">Включить 2FA</button>
-        </div>
-      </div>
-
-      <!-- Partner Card -->
-      <div class="glass-card profile-card partner-card">
-        <h2 class="card-title">Стань медиа-партнёром</h2>
-        <p class="partner-desc">Получай бонусы за привлечение новых пользователей</p>
-        <button class="action-btn primary">Подать заявку</button>
-      </div>
-
-      <a href="index.html" class="btn btn-ghost" onclick="logout()">Выйти</a>
-    </div>
-  </section>
+  </footer>
 
   <script>
     // Check if logged in
@@ -140,10 +152,11 @@
     
     // Display user data
     if (currentUser) {
-      document.getElementById('userUid').textContent = currentUser.id || '-';
-      document.getElementById('userRole').textContent = 'Пользователь';
-      document.getElementById('userLogin').textContent = currentUser.username || '-';
+      document.getElementById('headerUsername').textContent = currentUser.username || 'User';
+      document.getElementById('profileUsername').textContent = currentUser.username || 'User';
       document.getElementById('userEmail').textContent = currentUser.email || '-';
+      document.getElementById('securityEmail').textContent = currentUser.email || '-';
+      document.getElementById('userUid').textContent = currentUser.id || 'Unknown';
       
       // Format registration date
       if (currentUser.createdAt) {
@@ -152,16 +165,10 @@
       }
     }
 
-    // Mobile menu toggle
-    const burger = document.querySelector('.burger');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    
-    burger.addEventListener('click', () => {
-      burger.classList.toggle('open');
-      mobileMenu.classList.toggle('open');
-    });
+    function clearKey() {
+      document.getElementById('keyInput').value = '';
+    }
 
-    // Logout function
     function logout() {
       localStorage.removeItem('pitch_user');
       window.location.href = 'index.html';
