@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход - Pitch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+          <polyline points="2 17 12 22 22 17"/>
+          <polyline points="2 12 12 17 22 12"/>
+        </svg>
+      </div>
+      <nav class="nav-pages">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="products.html" class="nav-link">Скачать</a>
+        <a href="faq.html" class="nav-link">FAQ</a>
+        <a href="support.html" class="nav-link">Поддержка</a>
+      </nav>
+      <div class="header-actions">
+        <div class="lang-dropdown">
+          <img src="https://flagcdn.com/w40/ru.png" alt="RU" class="flag-img">
+        </div>
+        <div class="header-buttons">
+          <a href="login.html" class="btn btn-ghost">Вход</a>
+          <a href="register.html" class="btn btn-primary-sm">Регистрация</a>
+        </div>
+      </div>
+      <button class="burger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html">Главная</a>
+      <a href="products.html">Скачать</a>
+      <a href="faq.html">FAQ</a>
+      <a href="support.html">Поддержка</a>
+    </nav>
+    <div class="mobile-actions">
+      <a href="login.html" class="btn btn-ghost">Вход</a>
+      <a href="register.html" class="btn btn-primary">Регистрация</a>
+    </div>
+  </div>
+
+  <!-- Auth Section -->
+  <section class="auth-section">
+    <div class="auth-bg">
+      <svg id="auth-ribbons" viewBox="0 0 1440 885" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="authGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ffffff08;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#ffffff02;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <path fill="url(#authGrad1)" d="M0,300 C400,200 800,400 1200,300 C1400,250 1440,350 1440,350 L1440,885 L0,885 Z" opacity="0.5"/>
+        <path fill="url(#authGrad1)" d="M0,400 C300,350 600,500 900,450 C1200,400 1440,500 1440,500 L1440,885 L0,885 Z" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="auth-content">
+      <div class="auth-header">
+        <h1 class="auth-title">Добро пожаловать</h1>
+        <p class="auth-subtitle">Войдите в свой аккаунт</p>
+      </div>
+      <form class="auth-form" onsubmit="handleLogin(event)">
+        <div class="auth-inputs">
+          <div class="input-group">
+            <label class="input-label">Email</label>
+            <div class="input-field glass-card">
+              <input type="email" placeholder="your@email.com" required>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Пароль</label>
+            <div class="input-field glass-card">
+              <input type="password" placeholder="Введите пароль" required>
+            </div>
+          </div>
+        </div>
+        <div class="auth-footer-row">
+          <label class="checkbox-wrap">
+            <input type="checkbox" class="checkbox-input" id="remember">
+            <span class="checkbox-box">
+              <svg class="checkbox-icon" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <span class="checkbox-text">Запомнить меня</span>
+          </label>
+          <a href="#" class="forgot-link">Забыли пароль?</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-large">Войти</button>
+        <p class="auth-switch">Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    // Mobile menu toggle
+    const burger = document.querySelector('.burger');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+
+    // Checkbox toggle
+    const checkbox = document.querySelector('.checkbox-input');
+    const checkboxBox = document.querySelector('.checkbox-box');
+    
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        checkboxBox.classList.add('checked');
+      } else {
+        checkboxBox.classList.remove('checked');
+      }
+    });
+
+    // Login handler - API version
+    async function handleLogin(e) {
+      e.preventDefault();
+      
+      const inputs = e.target.querySelectorAll('input');
+      const email = inputs[0].value;
+      const password = inputs[1].value;
+      const remember = inputs[2].checked;
+      
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          alert(data.error || 'Неверный email или пароль');
+          return;
+        }
+        
+        // Save to localStorage for current session
+        localStorage.setItem('pitch_user', JSON.stringify(data.user));
+        
+        alert('Вход выполнен успешно!');
+        window.location.href = 'profile.html';
+      } catch (error) {
+        alert('Ошибка соединения с сервером');
+      }
+    }
+    
+    // Check if already logged in
+    const currentUser = localStorage.getItem('pitch_user');
+    if (currentUser) {
+      window.location.href = 'profile.html';
+    }
+  </script>
+</body>
+</html>
