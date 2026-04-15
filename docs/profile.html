@@ -27,6 +27,7 @@
         </div>
         <div class="header-buttons">
           <span class="profile-username" id="headerUsername">User</span>
+          <span class="header-avatar" id="headerAvatar"></span>
           <span class="profile-status-dot"></span>
           <a href="index.html" class="btn btn-ghost" onclick="logout()">Выйти</a>
         </div>
@@ -191,6 +192,14 @@
       document.getElementById('userEmail').textContent = currentUser.email || '-';
       document.getElementById('securityEmail').textContent = currentUser.email || '-';
       document.getElementById('userUid').textContent = currentUser.id || 'Unknown';
+      
+      // Load avatar in header
+      const headerAvatar = document.getElementById('headerAvatar');
+      if (currentUser.avatar) {
+        headerAvatar.style.background = `url(${currentUser.avatar}) center/cover, linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)`;
+      } else {
+        headerAvatar.style.background = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+      }
       
       // Format registration date
       if (currentUser.createdAt) {
