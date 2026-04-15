@@ -25,9 +25,15 @@
         <div class="lang-dropdown">
           <img src="https://flagcdn.com/w40/ru.png" alt="RU" class="flag-img">
         </div>
-        <div class="header-buttons">
+        <div class="header-buttons" id="headerButtons">
           <a href="login.html" class="btn btn-ghost">Вход</a>
           <a href="register.html" class="btn btn-primary-sm">Регистрация</a>
+        </div>
+        <div class="header-user" id="headerUser" style="display: none;">
+          <span class="header-username" id="headerUsername">User</span>
+          <span class="header-avatar"></span>
+          <a href="profile.html" class="btn btn-ghost">Профиль</a>
+          <a href="index.html" class="btn btn-ghost" onclick="logout()">Выйти</a>
         </div>
       </div>
       <button class="burger" aria-label="Menu">
@@ -228,6 +234,32 @@
       currentScreenshot = index;
       updateScreenshot();
     }
+
+    // Check authentication and update header
+    function updateHeader() {
+      const currentUser = JSON.parse(localStorage.getItem('pitch_user'));
+      const headerButtons = document.getElementById('headerButtons');
+      const headerUser = document.getElementById('headerUser');
+      const headerUsername = document.getElementById('headerUsername');
+
+      if (currentUser) {
+        headerButtons.style.display = 'none';
+        headerUser.style.display = 'flex';
+        headerUsername.textContent = currentUser.username || 'User';
+      } else {
+        headerButtons.style.display = 'flex';
+        headerUser.style.display = 'none';
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('pitch_user');
+      updateHeader();
+      window.location.href = 'index.html';
+    }
+
+    // Update header on page load
+    updateHeader();
   </script>
 </body>
 </html>
