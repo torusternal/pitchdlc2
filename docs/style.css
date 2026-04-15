@@ -426,7 +426,11 @@ img{max-width:100%;display:block}
 .profile-card>*{z-index:1;position:relative}
 .card-title{color:var(--text-tertiary);font-size:12px;font-weight:400}
 
-.profile-avatar{width:80px;height:80px;background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);border-radius:50%;margin:0 auto 16px}
+.profile-avatar-wrapper{position:relative;width:80px;height:80px;margin:0 auto 16px;cursor:pointer}
+.profile-avatar{width:80px;height:80px;background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);border-radius:50%;transition:filter .3s}
+.avatar-overlay{position:absolute;top:0;left:0;width:80px;height:80px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.profile-avatar-wrapper:hover .avatar-overlay{opacity:1}
+.profile-avatar-wrapper:hover .profile-avatar{filter:brightness(.8)}
 .profile-info{text-align:center}
 .profile-name{color:var(--text-primary);font-size:18px;font-weight:600;margin-bottom:8px}
 .profile-status{color:var(--text-tertiary);font-size:12px}
