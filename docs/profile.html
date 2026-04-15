@@ -46,8 +46,8 @@
     </nav>
   </div>
 
-  <!-- Dashboard Section -->
-  <section class="dash-section">
+  <!-- Profile Section -->
+  <section class="profile-section">
     <div class="auth-bg">
       <svg id="auth-ribbons" viewBox="0 0 1440 885" preserveAspectRatio="none">
         <defs>
@@ -59,67 +59,75 @@
         <path fill="url(#authGrad1)" d="M0,300 C400,200 800,400 1200,300 C1400,250 1440,350 1440,350 L1440,885 L0,885 Z" opacity="0.5"/>
       </svg>
     </div>
-    <div class="dash-content">
-      <!-- Profile Card -->
-      <div class="glass-card dash-profile">
-        <div class="dash-profile-left">
-          <div class="dash-avatar" id="userAvatar" onclick="changeAvatar()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); cursor: pointer; position: relative;">
-            <div style="position: absolute; bottom: 0; right: 0; width: 24px; height: 24px; background: #4facfe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">📷</div>
+    <div class="profile-content">
+      <h1 class="profile-title">Аккаунт</h1>
+      
+      <!-- Subscription Card -->
+      <div class="glass-card profile-card">
+        <h2 class="card-title">Подписка</h2>
+        <div class="subscription-info">
+          <div class="sub-status">
+            <span class="sub-label">Статус:</span>
+            <span class="sub-value free">Бесплатная</span>
           </div>
-          <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(this)">
-          <div class="dash-user-text">
-            <span class="dash-username">User123</span>
-          </div>
-        </div>
-        <div class="dash-profile-stats">
-          <a href="index.html" class="btn btn-ghost" onclick="logout()">Выйти</a>
-        </div>
-      </div>
-
-      <div class="dash-columns">
-        <!-- Left Column -->
-        <div class="dash-col">
-          <!-- Status Card -->
-          <div class="glass-card dash-card">
-            <span class="dash-card-label">Статус системы</span>
-            <div class="dash-card-body">
-              <div class="dash-row">
-                <span class="dash-row-icon">🌐</span>
-                <span class="dash-row-text">Серверы</span>
-                <span class="dash-row-status online">Работают</span>
-              </div>
-              <div class="dash-row">
-                <span class="dash-row-icon">🔄</span>
-                <span class="dash-row-text">Обновления</span>
-                <span class="dash-row-val">Актуальны</span>
-              </div>
-              <div class="dash-row">
-                <span class="dash-row-icon">🛡️</span>
-                <span class="dash-row-text">Защита</span>
-                <span class="dash-row-val">Активна</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column -->
-        <div class="dash-col">
-          <!-- Security Card -->
-          <div class="glass-card dash-card">
-            <span class="dash-card-label">Безопасность</span>
-            <div class="dash-card-body">
-              <div class="dash-info-row">
-                <span>Двухфакторная аутентификация</span>
-                <span style="color: #22c55e;">Включена</span>
-              </div>
-              <div class="dash-info-row">
-                <span>Последний вход</span>
-                <span>Сегодня, 14:30</span>
-              </div>
-            </div>
+          <div class="sub-expiry">
+            <span class="sub-label">Истекает:</span>
+            <span class="sub-value">Никогда</span>
           </div>
         </div>
       </div>
+
+      <!-- Account Data Card -->
+      <div class="glass-card profile-card">
+        <h2 class="card-title">Данные аккаунта</h2>
+        <div class="account-data">
+          <div class="data-row">
+            <span class="data-label">UID:</span>
+            <span class="data-value" id="userUid">-</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Роль:</span>
+            <span class="data-value" id="userRole">Пользователь</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Логин:</span>
+            <span class="data-value" id="userLogin">-</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Почта:</span>
+            <span class="data-value" id="userEmail">-</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Дата регистрации:</span>
+            <span class="data-value" id="userRegDate">-</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">HWID:</span>
+            <span class="data-value" id="userHwid">Не привязан</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions Card -->
+      <div class="glass-card profile-card">
+        <h2 class="card-title">Действия</h2>
+        <div class="actions-grid">
+          <button class="action-btn primary">Скачать лоадер</button>
+          <button class="action-btn secondary">Активировать ключ</button>
+          <button class="action-btn secondary">Сменить пароль</button>
+          <button class="action-btn secondary">Сбросить HWID</button>
+          <button class="action-btn secondary">Включить 2FA</button>
+        </div>
+      </div>
+
+      <!-- Partner Card -->
+      <div class="glass-card profile-card partner-card">
+        <h2 class="card-title">Стань медиа-партнёром</h2>
+        <p class="partner-desc">Получай бонусы за привлечение новых пользователей</p>
+        <button class="action-btn primary">Подать заявку</button>
+      </div>
+
+      <a href="index.html" class="btn btn-ghost" onclick="logout()">Выйти</a>
     </div>
   </section>
 
@@ -130,9 +138,18 @@
       window.location.href = 'login.html';
     }
     
-    // Display username
+    // Display user data
     if (currentUser) {
-      document.querySelector('.dash-username').textContent = currentUser.username;
+      document.getElementById('userUid').textContent = currentUser.id || '-';
+      document.getElementById('userRole').textContent = 'Пользователь';
+      document.getElementById('userLogin').textContent = currentUser.username || '-';
+      document.getElementById('userEmail').textContent = currentUser.email || '-';
+      
+      // Format registration date
+      if (currentUser.createdAt) {
+        const regDate = new Date(currentUser.createdAt);
+        document.getElementById('userRegDate').textContent = regDate.toLocaleDateString('ru-RU');
+      }
     }
 
     // Mobile menu toggle
@@ -144,52 +161,11 @@
       mobileMenu.classList.toggle('open');
     });
 
-    // Avatar functions
-    function changeAvatar() {
-      document.getElementById('avatarInput').click();
-    }
-
-    function handleAvatarChange(input) {
-      const file = input.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const avatarData = e.target.result;
-        document.getElementById('userAvatar').style.background = `url(${avatarData}) center/cover`;
-        
-        // Save to localStorage
-        const user = JSON.parse(localStorage.getItem('pitch_user') || '{}');
-        user.avatar = avatarData;
-        localStorage.setItem('pitch_user', JSON.stringify(user));
-        
-        // Update in users array too
-        const users = JSON.parse(localStorage.getItem('pitch_users') || '[]');
-        const userIndex = users.findIndex(u => u.email === user.email);
-        if (userIndex >= 0) {
-          users[userIndex].avatar = avatarData;
-          localStorage.setItem('pitch_users', JSON.stringify(users));
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-
-    // Load avatar on page load
-    function loadAvatar() {
-      const user = JSON.parse(localStorage.getItem('pitch_user') || '{}');
-      if (user.avatar) {
-        document.getElementById('userAvatar').style.background = `url(${user.avatar}) center/cover`;
-      }
-    }
-
     // Logout function
     function logout() {
       localStorage.removeItem('pitch_user');
       window.location.href = 'index.html';
     }
-
-    // Load avatar when page loads
-    loadAvatar();
   </script>
 </body>
 </html>
