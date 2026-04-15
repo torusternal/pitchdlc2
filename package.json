@@ -2,6 +2,7 @@
   "name": "site",
   "version": "1.0.0",
   "description": "Site with authentication",
+  "type": "module",
   "dependencies": {
     "pg": "^8.11.3"
   }
