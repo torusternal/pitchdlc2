@@ -135,8 +135,8 @@
       }
     });
 
-    // Register handler - localStorage version
-    function handleRegister(e) {
+    // Register handler - Netlify Functions version
+    async function handleRegister(e) {
       e.preventDefault();
       
       const inputs = e.target.querySelectorAll('input');
@@ -150,23 +150,28 @@
         return;
       }
       
-      // Get users from localStorage
-      const users = JSON.parse(localStorage.getItem('pitch_users') || '[]');
-      
-      // Check if user already exists
-      if (users.find(u => u.email === email || u.username === username)) {
-        alert('Пользователь с таким email или именем уже существует');
-        return;
+      try {
+        const response = await fetch('/.netlify/functions/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          localStorage.setItem('pitch_user', JSON.stringify(data.user));
+          alert('Аккаунт создан успешно!');
+          window.location.href = 'profile.html';
+        } else {
+          alert(data.error || 'Ошибка регистрации');
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        alert('Ошибка соединения с сервером');
       }
-      
-      // Add new user
-      const newUser = { username, email, password };
-      users.push(newUser);
-      localStorage.setItem('pitch_users', JSON.stringify(users));
-      localStorage.setItem('pitch_user', JSON.stringify(newUser));
-      
-      alert('Аккаунт создан успешно!');
-      window.location.href = 'profile.html';
     }
   </script>
 </body>

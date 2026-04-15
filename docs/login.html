@@ -124,8 +124,8 @@
       }
     });
 
-    // Login handler - localStorage version
-    function handleLogin(e) {
+    // Login handler - Netlify Functions version
+    async function handleLogin(e) {
       e.preventDefault();
       
       const inputs = e.target.querySelectorAll('input');
@@ -133,20 +133,28 @@
       const password = inputs[1].value;
       const remember = inputs[2].checked;
       
-      // Get users from localStorage
-      const users = JSON.parse(localStorage.getItem('pitch_users') || '[]');
-      const user = users.find(u => u.email === email && u.password === password);
-      
-      if (!user) {
-        alert('Неверный email или пароль');
-        return;
+      try {
+        const response = await fetch('/.netlify/functions/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          localStorage.setItem('pitch_user', JSON.stringify(data.user));
+          alert('Вход выполнен успешно!');
+          window.location.href = 'profile.html';
+        } else {
+          alert(data.error || 'Ошибка входа');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        alert('Ошибка соединения с сервером');
       }
-      
-      // Save to localStorage
-      localStorage.setItem('pitch_user', JSON.stringify(user));
-      
-      alert('Вход выполнен успешно!');
-      window.location.href = 'profile.html';
     }
     
     // Check if already logged in
