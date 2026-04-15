@@ -6,6 +6,9 @@ const pool = new Pool({
 });
 
 exports.handler = async (event, context) => {
+  console.log('Register function called');
+  console.log('Event:', JSON.stringify(event));
+
   // Enable CORS
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -14,15 +17,19 @@ exports.handler = async (event, context) => {
   };
 
   if (event.httpMethod === 'OPTIONS') {
+    console.log('OPTIONS request');
     return { statusCode: 200, headers };
   }
 
   if (event.httpMethod !== 'POST') {
+    console.log('Invalid method:', event.httpMethod);
     return { statusCode: 405, headers, body: 'Method Not Allowed' };
   }
 
   try {
+    console.log('Parsing request body');
     const { username, email, password } = JSON.parse(event.body);
+    console.log('Received:', { username, email });
     
     // Validate input
     if (!username || !email || !password) {
