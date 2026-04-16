@@ -135,7 +135,7 @@
               <span class="spec-label">Оперативная память</span>
               <span class="spec-value">4GB</span>
             </div>
-            <button class="btn btn-primary btn-full">Скачать</button>
+            <button class="btn btn-primary btn-full" onclick="download()">Скачать</button>
           </div>
 
           <!-- Security -->
@@ -390,6 +390,11 @@
 
     // Check license on page load
     checkLicense();
+
+    // Download function (same as in products.html)
+    function download() {
+      window.open('https://drive.google.com/file/d/1OhsCa6MKsQd50N03_oZXChd_qe9Ne5X3/view?usp=sharing', '_blank');
+    }
   </script>
 </body>
 </html>
