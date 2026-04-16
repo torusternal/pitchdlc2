@@ -137,7 +137,7 @@
             </div>
             <div class="detail-row">
               <span class="detail-label">HWID</span>
-              <span class="detail-value">🔑</span>
+              <span class="detail-value" id="userHwid">Не привязан</span>
             </div>
           </div>
 
@@ -209,6 +209,41 @@
       if (currentUser.createdAt) {
         const regDate = new Date(currentUser.createdAt);
         document.getElementById('userRegDate').textContent = regDate.toLocaleDateString('ru-RU');
+      }
+      
+      // Load user info from server (including HWID)
+      loadUserInfo();
+    }
+
+    async function loadUserInfo() {
+      const currentUser = JSON.parse(localStorage.getItem('pitch_user'));
+      if (!currentUser) return;
+
+      try {
+        const response = await fetch('/api/user-info', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userId: currentUser.id })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.user) {
+          // Update HWID display
+          const hwidEl = document.getElementById('userHwid');
+          if (data.user.hwid) {
+            // Show first 8 and last 8 characters of HWID
+            const hwidShort = data.user.hwid.substring(0, 8) + '...' + data.user.hwid.substring(data.user.hwid.length - 8);
+            hwidEl.textContent = hwidShort;
+            hwidEl.title = data.user.hwid; // Full HWID on hover
+          } else {
+            hwidEl.textContent = 'Не привязан (привяжется при первом запуске)';
+          }
+        }
+      } catch (error) {
+        console.error('Load user info error:', error);
       }
     }
 
