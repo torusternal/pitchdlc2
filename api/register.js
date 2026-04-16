@@ -28,6 +28,11 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Все поля обязательны' });
     }
 
+    // Create sequence for user IDs (if not exists)
+    await pool.query(`
+      CREATE SEQUENCE IF NOT EXISTS user_id_seq START 1
+    `);
+
     // Create table if not exists
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -49,8 +54,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Аккаунт с таким email уже существует' });
     }
 
-    // Add new user
-    const userId = Date.now().toString();
+    // Get next user ID from sequence
+    const seqResult = await pool.query('SELECT nextval(\'user_id_seq\')');
+    const userId = seqResult.rows[0].nextval.toString();
+    
     await pool.query(
       'INSERT INTO users (id, username, email, password) VALUES ($1, $2, $3, $4)',
       [userId, username, email, password]
