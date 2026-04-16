@@ -87,14 +87,18 @@
           <!-- Key Activation -->
           <div class="glass-card profile-card">
             <h3 class="card-title">Активация ключа</h3>
-            <div class="input-group">
+            <div class="license-status" id="licenseStatus" style="display: none;">
+              <span class="status-badge" id="statusBadge">Нет активной лицензии</span>
+            </div>
+            <div class="input-group" id="activationForm">
               <label class="input-label">Ключ</label>
               <div class="input-wrapper">
                 <input type="text" class="dash-input" placeholder="Введите ключ" id="keyInput">
                 <button class="clear-btn" onclick="clearKey()">×</button>
               </div>
             </div>
-            <button class="btn btn-primary btn-full">Активировать</button>
+            <button class="btn btn-primary btn-full" id="activateBtn" onclick="activateKey()">Активировать</button>
+            <p class="activation-message" id="activationMessage"></p>
           </div>
 
           <!-- Socials -->
@@ -263,6 +267,119 @@
 
     // Load avatar when page loads
     loadAvatar();
+
+    // License activation functionality
+    async function activateKey() {
+      const keyInput = document.getElementById('keyInput');
+      const key = keyInput.value.trim();
+      const messageEl = document.getElementById('activationMessage');
+      
+      if (!key) {
+        messageEl.textContent = 'Введите ключ';
+        messageEl.style.color = '#ef4444';
+        return;
+      }
+
+      const currentUser = JSON.parse(localStorage.getItem('pitch_user'));
+      if (!currentUser) {
+        messageEl.textContent = 'Ошибка: пользователь не найден';
+        messageEl.style.color = '#ef4444';
+        return;
+      }
+
+      try {
+        messageEl.textContent = 'Активация...';
+        messageEl.style.color = '#888';
+
+        const response = await fetch('/api/activate-key', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ key, userId: currentUser.id })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          messageEl.textContent = '✓ Ключ успешно активирован!';
+          messageEl.style.color = '#22c55e';
+          
+          // Update license status in localStorage
+          currentUser.license = data.license;
+          localStorage.setItem('pitch_user', JSON.stringify(currentUser));
+          
+          // Update UI
+          updateLicenseUI(data.license);
+          
+          // Clear input
+          keyInput.value = '';
+        } else {
+          messageEl.textContent = '✗ ' + (data.error || 'Ошибка активации');
+          messageEl.style.color = '#ef4444';
+        }
+      } catch (error) {
+        messageEl.textContent = '✗ Ошибка сервера';
+        messageEl.style.color = '#ef4444';
+        console.error('Activation error:', error);
+      }
+    }
+
+    async function checkLicense() {
+      const currentUser = JSON.parse(localStorage.getItem('pitch_user'));
+      if (!currentUser) return;
+
+      try {
+        const response = await fetch('/api/check-license', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userId: currentUser.id })
+        });
+
+        const data = await response.json();
+
+        if (data.hasLicense) {
+          updateLicenseUI(data.license);
+          // Save to localStorage
+          currentUser.license = data.license;
+          localStorage.setItem('pitch_user', JSON.stringify(currentUser));
+        } else {
+          document.getElementById('licenseStatus').style.display = 'block';
+          document.getElementById('statusBadge').textContent = 'Нет активной лицензии';
+          document.getElementById('statusBadge').style.background = '#ef4444';
+        }
+      } catch (error) {
+        console.error('Check license error:', error);
+      }
+    }
+
+    function updateLicenseUI(license) {
+      const statusEl = document.getElementById('licenseStatus');
+      const badgeEl = document.getElementById('statusBadge');
+      const formEl = document.getElementById('activationForm');
+      const btnEl = document.getElementById('activateBtn');
+      
+      statusEl.style.display = 'block';
+      badgeEl.textContent = '✓ Лицензия активна (' + license.type + ')';
+      badgeEl.style.background = '#22c55e';
+      badgeEl.style.color = '#fff';
+      badgeEl.style.padding = '4px 12px';
+      badgeEl.style.borderRadius = '4px';
+      badgeEl.style.fontSize = '12px';
+      
+      // Hide activation form if license is active
+      formEl.style.display = 'none';
+      btnEl.style.display = 'none';
+      
+      // Update profile status
+      document.querySelector('.profile-status').textContent = 'Лицензия активна';
+      document.querySelector('.profile-status').style.color = '#22c55e';
+    }
+
+    // Check license on page load
+    checkLicense();
   </script>
 </body>
 </html>
